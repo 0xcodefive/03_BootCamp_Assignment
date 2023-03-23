@@ -1,5 +1,4 @@
 const tokensData = {};
-
 let BSC_SCAN_API_KEY;
 
 function _setData() {
