@@ -5,7 +5,7 @@ function _setData() {
   fetch("/config.json")
     .then((res) => res.json())
     .then((data) => {
-      DaBSC_SCAN_API_KEYta = data.BSC_SCAN_API_KEY;
+      BSC_SCAN_API_KEY = data.BSC_SCAN_API_KEY;
     });
 }
 
