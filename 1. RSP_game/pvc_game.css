@@ -1,0 +1,144 @@
+/* Общие стили для body */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Общие стили для div */
+div {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  display: block;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Стили для кнопок */
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #007aff;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Стили для input */
+input,
+textarea {
+  margin: 10px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  background-color: #e6e6e6;
+}
+
+/* Table */
+table {
+  border-collapse: collapse;
+  margin: 10px auto;
+  max-width: 100%;
+  width: 90%;
+}
+
+table,
+th,
+td {
+  border: 1px solid #dcdcdc;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #007aff;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Paragraph */
+p {
+  margin: 10px;
+  padding: 0;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4 {
+  margin: 10px;
+  padding: 0;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+/* Стили для мобильной версии */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+
+  div {
+    flex-direction: column;
+  }
+}
+
+/* Стили для десктопной версии */
+@media (min-width: 601px) {
+  body {
+    font-size: 18px;
+  }
+
+  div {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}

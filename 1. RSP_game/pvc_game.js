@@ -152,11 +152,16 @@ async function callbackGameIsPlayed(tableBody) {
 
   // Получаем последние 10 результатов для игрока
   contract
-    .queryFilter("GamePvCisPlayed", blockNumber - 1000, blockNumber)
+    .queryFilter("GamePvCisPlayed", blockNumber - 2000, blockNumber)
     .then((events) => {
       console.log(`Найдено ${events.length} событий`);
-      events.slice(-10).forEach((event) => {
+      events.slice(-10).forEach(async (event) => {
         const newRow = document.createElement("tr");
+
+        const timestampCell = document.createElement("td");
+        timestampCell.textContent = await _getBlockTimestamp(event.blockNumber);
+        newRow.appendChild(timestampCell);
+
         const amountCell = document.createElement("td");
         amountCell.textContent = `${ethers.utils.formatUnits(
           event.args.amount,
@@ -165,11 +170,11 @@ async function callbackGameIsPlayed(tableBody) {
         newRow.appendChild(amountCell);
 
         const playerChoiceCell = document.createElement("td");
-        playerChoiceCell.textContent = event.args.playerChoice.toString();
+        playerChoiceCell.textContent = _convertBetToText(event.args.playerChoice);
         newRow.appendChild(playerChoiceCell);
 
         const contractChoiceCell = document.createElement("td");
-        contractChoiceCell.textContent = event.args.contractChoice.toString();
+        contractChoiceCell.textContent = _convertBetToText(event.args.contractChoice);
         newRow.appendChild(contractChoiceCell);
 
         const resultCell = document.createElement("td");
@@ -183,11 +188,16 @@ async function callbackGameIsPlayed(tableBody) {
   // Подписываемся на событие GamePvCisPlayed для контракта
   contract.on(
     "GamePvCisPlayed",
-    (player, amount, playerChoice, contractChoice, result, event) => {
+    async (player, amount, playerChoice, contractChoice, result, event) => {
       if (player === account) {
         console.log(`Новый результат игры: ${result}`);
 
         const newRow = document.createElement("tr");
+
+        const timestampCell = document.createElement("td");
+        timestampCell.textContent = await _getBlockTimestamp(event.blockNumber);
+        newRow.appendChild(timestampCell);
+
         const amountCell = document.createElement("td");
         amountCell.textContent = `${ethers.utils.formatUnits(
           amount,
@@ -196,11 +206,11 @@ async function callbackGameIsPlayed(tableBody) {
         newRow.appendChild(amountCell);
 
         const playerChoiceCell = document.createElement("td");
-        playerChoiceCell.textContent = playerChoice.toString();
+        playerChoiceCell.textContent = _convertBetToText(playerChoice);
         newRow.appendChild(playerChoiceCell);
 
         const contractChoiceCell = document.createElement("td");
-        contractChoiceCell.textContent = contractChoice.toString();
+        contractChoiceCell.textContent = _convertBetToText(contractChoice);
         newRow.appendChild(contractChoiceCell);
 
         const resultCell = document.createElement("td");
@@ -239,6 +249,22 @@ function _convertFinneyToBigNumber(value) {
   const bigNumber = ethers.BigNumber.from(valueInWei);
   return bigNumber;
 }
+
+function _convertBetToText(value) {
+  return value.toString() === "0" ? "Камень" : value.toString() === "1" ? "Ножницы" : "Бумага";
+}
+
+async function _getBlockTimestamp(blockNumber) {
+  const block = await provider.getBlock(blockNumber);
+  const date = new Date(block.timestamp * 1000);
+  const year = date.getFullYear();
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
+  const hours = ("0" + date.getHours()).slice(-2);
+  const minutes = ("0" + date.getMinutes()).slice(-2);
+  const formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes;
+  return formattedDate;
+  }
 
 async function _sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

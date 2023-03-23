@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-
+    <link href="pvc_game.css" rel="stylesheet" />
     <script
       type="application/javascript"
       src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
@@ -22,21 +22,29 @@
       <div>
         <div id="gameBNB">
           <h2>Игра на BNB</h2>
-          Введите сумму в finney (0.001 BNB)
-          <input type="number" id="BNB_amount" /><br />
-          Ваш ход:<br />
-          <button onclick="_playbyBNB(0)">Камень</button>
-          <button onclick="_playbyBNB(1)">Ножницы</button>
-          <button onclick="_playbyBNB(2)">Бумага</button>
+          <div>
+            Введите сумму в finney (0.001 BNB)
+          </div>
+            <input type="number" id="BNB_amount" /><br />
+          <div>
+            Ваш ход:
+          </div>
+          <div>
+            <button onclick="_playbyBNB(0)">Камень</button>
+            <button onclick="_playbyBNB(1)">Ножницы</button>
+            <button onclick="_playbyBNB(2)">Бумага</button>
+          </div>
+          </div>
         </div>
       </div>
       <label id="messageGameBNB" style="display: none"></label>
 
-      <div id="results">
+      <div id="results" style="display: none">
         <h1>Таблица результатов игр</h1>
         <table id="resultTable">
           <thead>
             <tr>
+              <th>Время игры</th>
               <th>Ставка</th>
               <th>Выбор игрока</th>
               <th>Выбор контракта</th>
@@ -80,11 +88,10 @@
         } else {
           await connectWallet(window.ethereum);
           document.getElementById("btnConnectWallet").style.display = "none";
-          document.getElementById("handlers").style.display = "inline";
+          document.getElementById("handlers").style.display = "block";
+          document.getElementById("results").style.display = "block";
 
-          callbackGameIsPlayed(
-            document.querySelector("#resultTable tbody")
-          );
+          callbackGameIsPlayed(document.querySelector("#resultTable tbody"));
         }
       }
     </script>
