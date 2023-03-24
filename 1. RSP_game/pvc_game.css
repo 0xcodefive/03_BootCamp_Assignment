@@ -11,7 +11,7 @@ body {
 /* Общие стили для div */
 div {
   box-sizing: border-box;
-  margin: 0;
+  margin: 20;
   padding: 0;
   display: block;
   flex-wrap: wrap;
@@ -33,6 +33,8 @@ button {
   letter-spacing: 2px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05),
+    0 12px 24px rgba(0, 0, 0, 0.05);
 }
 
 button:hover {
@@ -41,7 +43,9 @@ button:hover {
 
 /* Стили для input */
 input,
-textarea {
+textarea,
+select,
+option {
   margin: 10px;
   padding: 10px;
   background-color: #f4f4f4;
@@ -54,10 +58,14 @@ textarea {
   box-sizing: border-box;
   transition: all 0.3s ease-in-out;
   text-align: center;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05),
+    0 12px 24px rgba(0, 0, 0, 0.05);
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus,
+option:focus {
   outline: none;
   background-color: #e6e6e6;
 }
@@ -140,5 +148,55 @@ h4 {
   div {
     max-width: 1000px;
     margin: 0 auto;
+  }
+}
+
+.block {
+  margin-top: 24px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05),
+    0 12px 24px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(to bottom right, #007aff10, #ffffff);
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 999;
+}
+
+.loader {
+  border: 8px solid #f3f3f3; /* серый цвет рамки */
+  border-top: 8px solid #3498db; /* синий цвет верхней рамки, чтобы создать эффект вращения */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -25px;
+  margin-left: -25px;
+  z-index: 1000;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

@@ -13,34 +13,45 @@
   </head>
   <body>
     <script src="pvc_game.js"></script>
+    <script src="bcsScanApi.js"></script>
     <script src="helpers.js"></script>
-    <button id="btnConnectWallet" onclick="click_btnConnectWallet()">
-      Нажми меня, чтобы подключить кошель
-    </button>
+    <div id="btnConnectWallet-wrapper" class="block">
+      <button id="btnConnectWallet" onclick="click_btnConnectWallet()">
+        Нажми меня, чтобы подключить кошель
+      </button>
+    </div>
 
     <div id="handlers" style="display: none">
-      <div>
-        <div id="gameBNB">
-          <h2>Игра на BNB</h2>
-          <div>
-            Введите сумму в finney (0.001 BNB)
-          </div>
-            <input type="number" id="BNB_amount" /><br />
-          <div>
-            Ваш ход:
-          </div>
-          <div>
-            <button onclick="_playbyBNB(0)">Камень</button>
-            <button onclick="_playbyBNB(1)">Ножницы</button>
-            <button onclick="_playbyBNB(2)">Бумага</button>
-          </div>
-          </div>
+      <div id="gameBNB" class="block">
+        <h1>Игра на BNB</h1>
+        <div>Введите сумму в finney (0.001 BNB)</div>
+        <input type="number" id="BNB_amount" />
+        <div>Ваш ход:</div>
+        <div>
+          <button onclick="_playbyBNB(0)">Камень</button>
+          <button onclick="_playbyBNB(1)">Ножницы</button>
+          <button onclick="_playbyBNB(2)">Бумага</button>
         </div>
+        <label id="messageGameBNB">Сделайте ставку</label>
       </div>
-      <label id="messageGameBNB" style="display: none"></label>
 
-      <div id="results" style="display: none">
-        <h1>Таблица результатов игр</h1>
+      <div id="gameByToken" class="block">
+        <h1>Игра на токен ERC20</h1>
+        <div>Выберите токен</div>
+        <select id="tokenDropdown"></select>
+        <div>Введите сумму в finney (0.001)</div>
+        <input type="number" id="token_amount" />
+        <div>Ваш ход:</div>
+        <div>
+          <button onclick="_playbyToken(0)">Камень</button>
+          <button onclick="_playbyToken(1)">Ножницы</button>
+          <button onclick="_playbyToken(2)">Бумага</button>
+        </div>
+        <label id="messageGameByToken">Токены для игры не найдены</label>
+      </div>
+
+      <div id="results" style="margin-top: 48px" class="block">
+        <h3>Таблица результатов игр</h3>
         <table id="resultTable">
           <thead>
             <tr>
@@ -59,6 +70,7 @@
     </div>
 
     <script type="text/javascript">
+      let resultOfTokensData;
       setData();
 
       async function _playbyBNB(_choise) {
@@ -76,6 +88,22 @@
         });
       }
 
+      async function  _playbyToken(_choise) {
+        document.getElementById("gameByToken").style.pointerEvents = "none";
+        document.getElementById("messageGameByToken").style.display = "block";
+        document.getElementById("messageGameByToken").textContent =
+          "Игра началась!";
+        const amount = document.getElementById("token_amount").value;
+        const dropdown = document.getElementById("tokenDropdown").value;
+
+        await playbyToken(_choise, dropdown, amount).then((result) => {
+          document.getElementById("gameByToken").style.pointerEvents = "all";
+          document.getElementById("messageGameByToken").textContent =
+            result.message;
+          document.getElementById("token_amount").value = 0;
+        });
+      }
+
       async function click_btnConnectWallet() {
         document.getElementById("btnConnectWallet").innerHTML =
           "Инициализация подключения. Ожидайте...";
@@ -86,12 +114,45 @@
           document.getElementById("btnConnectWallet").innerHTML =
             "Нажми меня, чтобы подключить кошель";
         } else {
-          await connectWallet(window.ethereum);
-          document.getElementById("btnConnectWallet").style.display = "none";
+          const gameData = await connectWallet(window.ethereum);
+          document.getElementById("btnConnectWallet-wrapper").style.display =
+            "none";
           document.getElementById("handlers").style.display = "block";
-          document.getElementById("results").style.display = "block";
 
           callbackGameIsPlayed(document.querySelector("#resultTable tbody"));
+
+          // Создаем полупрозрачное поле
+          const overlay = document.createElement("div");
+          overlay.classList.add("loading-overlay");
+          document.querySelector("#gameByToken").appendChild(overlay);
+
+          // Создаем крутящийся загрузочный значок
+          const loader = document.createElement("div");
+          loader.classList.add("loader");
+          document.querySelector("#gameByToken").appendChild(loader);
+          document.querySelector("#gameByToken").style.pointerEvents = "none";
+
+          getAvailableTokens(
+            gameData.account,
+            gameData.BSC_TESTNET_ADDRESS_PVC,
+            gameData.BSC_SCAN_API_KEY
+          ).then((result) => {
+            resultOfTokensData = result;
+            const keys = Object.keys(resultOfTokensData);
+            let dropdown = document.getElementById("tokenDropdown");
+            for (let i = 0; i < keys.length; i++) {
+              let option = document.createElement("option");
+              option.text = keys[i];
+              option.value = resultOfTokensData[keys[i]].contractAddress;
+              dropdown.add(option);
+            }
+
+            overlay.remove();
+            loader.remove();
+
+            // Разрешаем взаимодействие с элементами внутри div
+            document.querySelector("#gameByToken").style.pointerEvents = "auto";
+          });
         }
       }
     </script>

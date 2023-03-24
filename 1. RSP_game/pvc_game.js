@@ -17,10 +17,10 @@ function setData() {
 // Возвращает account, contract и provider
 async function connectWallet(ethereum) {
   provider = new ethers.providers.Web3Provider(ethereum);
-  await provider.send("eth_requestAccounts", []).then(() => {
+  await provider.send("eth_requestAccounts", []).then(async () => {
     // Проверяем, в нужной сети находится кошелёк, если нет, меняем сеть
     if (ethereum.chainId !== Data.BSC_TESTNET_CHAIN_ID) {
-      ethereum.request({
+      await ethereum.request({
         method: "wallet_addEthereumChain",
         params: [
           {
@@ -38,7 +38,7 @@ async function connectWallet(ethereum) {
       });
     }
 
-    provider.listAccounts().then((accounts) => {
+    await provider.listAccounts().then((accounts) => {
       account = accounts[0];
       const signer = provider.getSigner(account);
       contract = new ethers.Contract(
@@ -46,8 +46,14 @@ async function connectWallet(ethereum) {
         Data.PVC_ABI,
         signer
       );
+
     });
   });
+  let gameData = Data;
+  gameData["provider"] = provider;
+  gameData["account"] = account;
+  gameData["contract"] = contract;
+  return gameData;
 }
 
 async function playbyBNB(_choice, _amount) {
