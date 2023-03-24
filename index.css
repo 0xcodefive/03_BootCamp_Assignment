@@ -12,8 +12,8 @@ body {
 div {
   box-sizing: border-box;
   margin: 20;
-  padding: 0;
-  display: block;
+  padding: 20;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -149,6 +149,11 @@ h4 {
     max-width: 1000px;
     margin: 0 auto;
   }
+}
+
+.selected:hover {
+  cursor: pointer;
+  background: linear-gradient(to top left, #007aff10, #ffffff);
 }
 
 .block {

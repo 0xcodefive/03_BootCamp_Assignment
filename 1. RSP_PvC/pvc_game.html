@@ -5,20 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link href="/index.js" rel="stylesheet" />
+    <link href="/index.css" rel="stylesheet" />
     <script
       type="application/javascript"
       src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
     ></script>
   </head>
   <body>
-    <script src="pvc_game.js"></script>
+    <script src="pvc_game_helper.js"></script>
     <script src="bcsScanApi.js"></script>
     <script src="helpers.js"></script>
-    <div id="btnConnectWallet-wrapper" class="block">
-      <button id="btnConnectWallet" onclick="click_btnConnectWallet()">
-        Нажми меня, чтобы подключить кошель
-      </button>
+    <div
+      id="btnConnectWallet-wrapper"
+      class="block selected"
+      onclick="click_btnConnectWallet()"
+    >
+      <div id="btnConnectWallet">Нажми меня, чтобы подключить кошель</div>
     </div>
 
     <div id="handlers" style="display: none">
@@ -69,92 +71,6 @@
       </div>
     </div>
 
-    <script type="text/javascript">
-      let resultOfTokensData;
-      setData();
-
-      async function _playbyBNB(_choise) {
-        document.getElementById("gameBNB").style.pointerEvents = "none";
-        document.getElementById("messageGameBNB").style.display = "block";
-        document.getElementById("messageGameBNB").textContent =
-          "Игра началась!";
-        const amount = document.getElementById("BNB_amount").value;
-
-        await playbyBNB(_choise, amount).then((result) => {
-          document.getElementById("gameBNB").style.pointerEvents = "all";
-          document.getElementById("messageGameBNB").textContent =
-            result.message;
-          document.getElementById("BNB_amount").value = 0;
-        });
-      }
-
-      async function  _playbyToken(_choise) {
-        document.getElementById("gameByToken").style.pointerEvents = "none";
-        document.getElementById("messageGameByToken").style.display = "block";
-        document.getElementById("messageGameByToken").textContent =
-          "Игра началась!";
-        const amount = document.getElementById("token_amount").value;
-        const dropdown = document.getElementById("tokenDropdown").value;
-
-        await playbyToken(_choise, dropdown, amount).then((result) => {
-          document.getElementById("gameByToken").style.pointerEvents = "all";
-          document.getElementById("messageGameByToken").textContent =
-            result.message;
-          document.getElementById("token_amount").value = 0;
-        });
-      }
-
-      async function click_btnConnectWallet() {
-        document.getElementById("btnConnectWallet").innerHTML =
-          "Инициализация подключения. Ожидайте...";
-
-        // Проверяем подключен ли Метамаск к сайту
-        if (typeof window.ethereum === "undefined") {
-          console.log("Крипто кошелёк не обнаружен");
-          document.getElementById("btnConnectWallet").innerHTML =
-            "Нажми меня, чтобы подключить кошель";
-        } else {
-          const gameData = await connectWallet(window.ethereum);
-          document.getElementById("btnConnectWallet-wrapper").style.display =
-            "none";
-          document.getElementById("handlers").style.display = "block";
-
-          callbackGameIsPlayed(document.querySelector("#resultTable tbody"));
-
-          // Создаем полупрозрачное поле
-          const overlay = document.createElement("div");
-          overlay.classList.add("loading-overlay");
-          document.querySelector("#gameByToken").appendChild(overlay);
-
-          // Создаем крутящийся загрузочный значок
-          const loader = document.createElement("div");
-          loader.classList.add("loader");
-          document.querySelector("#gameByToken").appendChild(loader);
-          document.querySelector("#gameByToken").style.pointerEvents = "none";
-
-          getAvailableTokens(
-            gameData.account,
-            gameData.BSC_TESTNET_ADDRESS_PVC,
-            gameData.BSC_SCAN_API_KEY
-          ).then((result) => {
-            resultOfTokensData = result;
-            const keys = Object.keys(resultOfTokensData);
-            let dropdown = document.getElementById("tokenDropdown");
-            for (let i = 0; i < keys.length; i++) {
-              let option = document.createElement("option");
-              option.text = keys[i];
-              option.value = resultOfTokensData[keys[i]].contractAddress;
-              dropdown.add(option);
-            }
-
-            overlay.remove();
-            loader.remove();
-
-            // Разрешаем взаимодействие с элементами внутри div
-            document.querySelector("#gameByToken").style.pointerEvents = "auto";
-          });
-        }
-      }
-    </script>
+    <script src="/1. RSP_PvC/pvc_game.js" charset="UTF-8"></script>
   </body>
 </html>

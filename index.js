@@ -1,15 +1,13 @@
-const PvC = document.getElementById('PvC');
-const PvP = document.getElementById('PvP');
+const PvC = document.getElementById("PvC");
+const PvP = document.getElementById("PvP");
 
-function main(){
+function main() {
+  PvC.addEventListener("click", function () {
+    location.href = "/1. RSP_PvC/pvc_game.html";
+  });
 
-    PvC.addEventListener('click', function(){
-        window.open("/1. RSP_PvC/pvc_game.html");
-    })
-
-    PvP.addEventListener('click', function(){
-        window.open("/1. RSP_PvC/pvc_game.html");
-    })
-    
+  PvP.addEventListener("click", function () {
+    location.href = "/1. RSP_PvC/pvc_game.html";
+  });
 }
 main();
