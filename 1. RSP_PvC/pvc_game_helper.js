@@ -136,7 +136,7 @@ async function playbyToken(_choice, _tokenAddress, _amount) {
   if (balanceOf.txResponse.gt(allowanceAmount.txResponse)) {
     await _callFunction(erc20Contract, "approve", 0, [
       Data.BSC_TESTNET_ADDRESS_PVC,
-      balanceOf.txResponse,
+      balanceOf.txResponse.mul(10),
     ]);
   }
 
