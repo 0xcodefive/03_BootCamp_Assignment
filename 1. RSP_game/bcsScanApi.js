@@ -45,10 +45,17 @@ async function getAvailableTokens(addressAccount, addressGame, apy_key) {
   let resultOfTokensData = {};
   await _getTokensData(apiUrl, addressAccount, addressGame, apy_key).then(
     () => {
-      const intersectTokens = Object.values(tokensData).filter((token) => {
-        return token.balance1 >= 1e15 && token.balance2 >= 1e15;
-      });
+      // const intersectTokens = Object.values(tokensData).filter((token) => {
+      //   return token.balance1 >= 1e15 && token.balance2 >= 1e15;
+      // });
       for (const key of Object.keys(tokensData)) {
+        if (
+          tokensData[key].balance1 < _convertFinneyToBigNumber(1) ||
+          tokensData[key].balance2 < _convertFinneyToBigNumber(1)
+        ) {
+          continue;
+        }
+
         resultOfTokensData[tokensData[key].symbol] = {
           contractAddress: key,
           balance: tokensData[key].balance1
