@@ -1,5 +1,5 @@
 {
-  "BSC_SCAN_API_KEY" : "URGSCRXWSFBPPABGQBJ6ZAUC923G62BCXD",
+  "BSC_SCAN_API_KEY": "URGSCRXWSFBPPABGQBJ6ZAUC923G62BCXD",
   "BSC_TESTNET_ADDRESS_PVC": "0x6c92493a0449D7478835373546fd6f6d6E96C5D9",
   "BSC_TESTNET_ADDRESS_PVP": "0x3914a56FaE62C4f51e01c0f88D4C21C7a591C5E7",
   "BSC_TESTNET_RPC_URL": "https://data-seed-prebsc-1-s1.binance.org:8545",
@@ -1156,6 +1156,25 @@
         }
       ],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     }
   ]

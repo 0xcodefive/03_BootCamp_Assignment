@@ -1,9 +1,10 @@
 //import { _callFunction, _pureFunction } from "helpers.js";
 
 let Data;
+let contract;
 let provider;
 let account;
-let contract;
+let signer;
 
 function setData() {
   fetch("/config.json")
@@ -40,13 +41,12 @@ async function connectWallet(ethereum) {
 
     await provider.listAccounts().then((accounts) => {
       account = accounts[0];
-      const signer = provider.getSigner(account);
+      signer = provider.getSigner(account);
       contract = new ethers.Contract(
         Data.BSC_TESTNET_ADDRESS_PVC,
         Data.PVC_ABI,
         signer
       );
-
     });
   });
   let gameData = Data;
@@ -122,18 +122,33 @@ async function playbyToken(_choice, _tokenAddress, _amount) {
   const erc20Contract = new ethers.Contract(
     _tokenAddress,
     Data.ERC20_ABI,
-    provider
+    signer
   );
-  const allowanceAmount = await _pureFunction(erc20Contract, "allowance", [
+
+  let allowanceAmount = await _pureFunction(erc20Contract, "allowance", [
     account,
-    Data.BSC_TESTNET_ADDRESS_PVP,
+    Data.BSC_TESTNET_ADDRESS_PVC,
   ]);
 
+  const balanceOf = await _pureFunction(erc20Contract, "balanceOf", [account]);
+
   // Проверяем разрешение расходования меньше указанной величины, меняем его
-  if (allowanceAmount < amount) {
+  if (balanceOf.txResponse.gt(allowanceAmount.txResponse)) {
     await _callFunction(erc20Contract, "approve", 0, [
-      Data.BSC_TESTNET_ADDRESS_PVP,
-      amount,
+      Data.BSC_TESTNET_ADDRESS_PVC,
+      balanceOf.txResponse,
+    ]);
+  }
+
+  let counter = 0;
+  while (
+    balanceOf.txResponse.gt(allowanceAmount.txResponse) &&
+    counter++ < 10
+  ) {
+    await _sleep(1000);
+    allowanceAmount = await _pureFunction(erc20Contract, "allowance", [
+      account,
+      Data.BSC_TESTNET_ADDRESS_PVC,
     ]);
   }
 
@@ -176,11 +191,15 @@ async function callbackGameIsPlayed(tableBody) {
         newRow.appendChild(amountCell);
 
         const playerChoiceCell = document.createElement("td");
-        playerChoiceCell.textContent = _convertBetToText(event.args.playerChoice);
+        playerChoiceCell.textContent = _convertBetToText(
+          event.args.playerChoice
+        );
         newRow.appendChild(playerChoiceCell);
 
         const contractChoiceCell = document.createElement("td");
-        contractChoiceCell.textContent = _convertBetToText(event.args.contractChoice);
+        contractChoiceCell.textContent = _convertBetToText(
+          event.args.contractChoice
+        );
         newRow.appendChild(contractChoiceCell);
 
         const resultCell = document.createElement("td");
@@ -227,6 +246,8 @@ async function callbackGameIsPlayed(tableBody) {
         if (tableBody.children.length > 10) {
           tableBody.removeChild(tableBody.firstChild);
         }
+
+        alert(`YOU ${result.toString()}`);
       }
     }
   );
@@ -257,7 +278,11 @@ function _convertFinneyToBigNumber(value) {
 }
 
 function _convertBetToText(value) {
-  return value.toString() === "0" ? "Камень" : value.toString() === "1" ? "Ножницы" : "Бумага";
+  return value.toString() === "0"
+    ? "Камень"
+    : value.toString() === "1"
+    ? "Ножницы"
+    : "Бумага";
 }
 
 async function _getBlockTimestamp(blockNumber) {
@@ -268,9 +293,10 @@ async function _getBlockTimestamp(blockNumber) {
   const day = ("0" + date.getDate()).slice(-2);
   const hours = ("0" + date.getHours()).slice(-2);
   const minutes = ("0" + date.getMinutes()).slice(-2);
-  const formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes;
+  const formattedDate =
+    year + "-" + month + "-" + day + " " + hours + ":" + minutes;
   return formattedDate;
-  }
+}
 
 async function _sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

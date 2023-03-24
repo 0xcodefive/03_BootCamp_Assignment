@@ -58,9 +58,7 @@ async function getAvailableTokens(addressAccount, addressGame, apy_key) {
 
         resultOfTokensData[tokensData[key].symbol] = {
           contractAddress: key,
-          balance: tokensData[key].balance1
-            .sub(tokensData[key].balance2)
-            .isNegative()
+          balance: tokensData[key].balance2.gt(tokensData[key].balance1)
             ? tokensData[key].balance1
             : tokensData[key].balance2,
         };

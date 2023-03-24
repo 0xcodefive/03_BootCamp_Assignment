@@ -2,8 +2,7 @@ const btnConnectWallet = document.getElementById("btnConnectWallet");
 let resultOfTokensData;
 
 async function _playbyBNB(_choise) {
-  document.getElementById("gameBNB").style.pointerEvents = "none";
-  document.getElementById("messageGameBNB").style.display = "block";
+  setLoader("gameBNB");
   document.getElementById("messageGameBNB").textContent = "Игра началась!";
   const amount = document.getElementById("BNB_amount").value;
 
@@ -17,12 +16,11 @@ async function _playbyBNB(_choise) {
         "Что-то пошло не поп плану. Попробуйте ещё раз";
     });
   document.getElementById("BNB_amount").value = 0;
-  document.getElementById("gameBNB").style.pointerEvents = "all";
+  removeLoader("gameBNB");
 }
 
 async function _playbyToken(_choise) {
-  document.getElementById("gameByToken").style.pointerEvents = "none";
-  document.getElementById("messageGameByToken").style.display = "block";
+  setLoader("gameByToken");
   document.getElementById("messageGameByToken").textContent = "Игра началась!";
   const amount = document.getElementById("token_amount").value;
   const dropdown = document.getElementById("tokenDropdown").value;
@@ -38,7 +36,7 @@ async function _playbyToken(_choise) {
         "Что-то пошло не поп плану. Попробуйте ещё раз";
     });
   document.getElementById("token_amount").value = 0;
-  document.getElementById("gameByToken").style.pointerEvents = "all";
+  removeLoader("gameByToken");
 }
 
 async function click_btnConnectWallet() {
@@ -62,6 +60,8 @@ async function click_btnConnectWallet() {
       gameData.BSC_TESTNET_ADDRESS_PVC,
       gameData.BSC_SCAN_API_KEY
     ).then((result) => {
+      document.getElementById("messageGameByToken").textContent =
+        "Токены не найдены";
       resultOfTokensData = result;
       const keys = Object.keys(resultOfTokensData);
       let dropdown = document.getElementById("tokenDropdown");
@@ -70,6 +70,8 @@ async function click_btnConnectWallet() {
         option.text = keys[i];
         option.value = resultOfTokensData[keys[i]].contractAddress;
         dropdown.add(option);
+        document.getElementById("messageGameByToken").textContent =
+          "Сделайте ставку";
       }
     });
 
