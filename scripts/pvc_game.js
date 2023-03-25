@@ -40,13 +40,13 @@ async function _playbyToken(_choise) {
 }
 
 async function click_btnConnectWallet() {
-  document.getElementById("btnConnectWallet").innerHTML =
+  btnConnectWallet.innerHTML =
     "Инициализация подключения. Ожидайте...";
 
   // Проверяем подключен ли Метамаск к сайту
   if (typeof window.ethereum === "undefined") {
     console.log("Крипто кошелёк не обнаружен");
-    document.getElementById("btnConnectWallet").innerHTML =
+    btnConnectWallet.innerHTML =
       "Нажми меня, чтобы подключить кошель";
   } else {
     const gameData = await connectWallet(window.ethereum);

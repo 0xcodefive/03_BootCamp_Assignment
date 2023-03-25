@@ -8,10 +8,23 @@
     <link href="/index.css" rel="stylesheet" />
   </head>
   <body>
-    <div>
-      <div id="PvC" class="block selected">Играть с контрактом</div>
-      <div id="PvP" class="block selected">Играть с человеком</div>
-    </div>
-    <script src="index.js" charset="UTF-8"></script>
+    <header>
+      <div w3-include-html="/header.html"></div>
+    </header>
+    <main class="content">
+      <div>
+        <div id="PvC" class="block selected">Играть с контрактом</div>
+        <div id="PvP" class="block selected">Играть с человеком</div>
+      </div>
+    </main>
+    <footer>
+      <div w3-include-html="/footer.html"></div>
+    </footer>
+
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script>
+      w3.includeHTML();
+    </script>
+    <script src="/scripts/index.js" charset="UTF-8"></script>
   </body>
 </html>

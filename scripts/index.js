@@ -3,11 +3,11 @@ const PvP = document.getElementById("PvP");
 
 function main() {
   PvC.addEventListener("click", function () {
-    location.href = "/1. RSP_PvC/pvc_game.html";
+    location.href = "/PvC/pvc_game.html";
   });
 
   PvP.addEventListener("click", function () {
-    location.href = "/1. RSP_PvC/pvc_game.html";
+    location.href = "/PvP/pvp_game.html";
   });
 }
 main();
