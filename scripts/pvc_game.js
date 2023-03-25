@@ -48,7 +48,7 @@ async function click_btnConnectWallet() {
     btnConnectWallet.innerHTML = "Нажми меня, чтобы подключить кошель";
     return;
   }
-  await setData();
+  setData();
 
   const gameData = await connectWallet(window.ethereum);
   document.getElementById("btnConnectWallet-wrapper").style.display = "none";

@@ -32,7 +32,7 @@ async function click_btnConnectWallet() {
     btnConnectWallet.innerHTML = "Нажми меня, чтобы подключить кошель";
     return;
   }
-  await setData();
+  setData();
   _setLoader("CreateGame");
 
   gameData = await connectWallet(window.ethereum, false);

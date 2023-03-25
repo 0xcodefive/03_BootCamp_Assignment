@@ -11,7 +11,7 @@ window.ethereum.on("accountsChanged", function (accounts) {
   location.reload();
 });
 
-async function setData() {
+function setData() {
   fetch("/config.json")
     .then((res) => res.json())
     .then((data) => {
