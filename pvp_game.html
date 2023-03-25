@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player vs Player</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script
+      type="application/javascript"
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <div w3-include-html="/header.html"></div>
+    </header>
+    <main class="content">
+      <div
+        id="btnConnectWallet-wrapper"
+        class="block selected"
+        onclick="click_btnConnectWallet()"
+      >
+        <div id="btnConnectWallet">Нажми меня, чтобы подключить кошель</div>
+      </div>
+
+      <div id="handlers" style="display: none">
+        <div id="CreateGame" class="block">
+          <h1>Создать свою игру</h1>
+          <div>Выберите токен</div>
+          <select id="tokensOfCreateGameDropdown"></select>
+          <div>Введите сумму в finney (0.001)</div>
+          <input type="number" id="amountCreateGame" />
+          <div>Придумайте и укажите секретный ключ (только буквы, цифры)</div>
+          <input type="text" id="secretCreateGame" />
+          <div>Ваш ход:</div>
+          <div>
+            <button onclick="_createPvP(0)">Камень</button>
+            <button onclick="_createPvP(1)">Ножницы</button>
+            <button onclick="_createPvP(2)">Бумага</button>
+          </div>
+          <label id="messageCreateGame">Ищем токены ERC20 для игры</label>
+        </div>
+
+        <div id="CancelUnplayedGame" style="display: none" class="block">
+          <h1>Закройте несыгранную игру</h1>
+          <label id="messageUnplayedGame"></label>
+          <div>
+            <button onclick="_cancelGame()">Закрыть</button>
+          </div>
+        </div>
+
+        <div id="CloseGame" style="display: none" class="block">
+          <h1>Закройте свою игру и получите результат</h1>
+          <label id="messageCloseGame"></label>
+          <div>Введите секретный ключ к игре</div>
+          <input type="text" id="secretCloseGame" />
+          <div>Укажите Ваш ход в игре</div>
+          <div>
+            <button onclick="_closePvP(0)">Камень</button>
+            <button onclick="_closePvP(1)">Ножницы</button>
+            <button onclick="_closePvP(2)">Бумага</button>
+          </div>
+        </div>
+
+        <div id="PlayGame" class="block">
+          <h1>Присоеденитесь к игре</h1>
+          <div>Выберите игру</div>
+          <select id="openedGamesDropdown"></select>
+          <div>Придумайте и укажите секретный ключ (только буквы, цифры)</div>
+          <input type="text" id="secretPlayGame" />
+          <div>Укажите Ваш ход в игре</div>
+          <div>
+            <button onclick="_playPvP(0)">Камень</button>
+            <button onclick="_playPvP(1)">Ножницы</button>
+            <button onclick="_playPvP(2)">Бумага</button>
+          </div>
+          <label id="messagePlayGame"></label>
+        </div>
+
+        <div id="results" style="margin-top: 48px" class="block">
+          <h3>Таблица результатов игр</h3>
+          <table id="resultTable">
+            <thead>
+              <tr>
+                <th>Время игры</th>
+                <th>Токен</th>
+                <th>Ставка</th>
+                <th>Результат</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Тело таблицы результатов -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div w3-include-html="/footer.html"></div>
+    </footer>
+
+    <script src="/scripts/pvp_game.js" charset="UTF-8" defer></script>
+    <script src="/scripts/contract_helpers.js" charset="UTF-8"></script>
+    <script src="/scripts/game_helpers.js" charset="UTF-8"></script>
+    <script src="/scripts/bcsScanApi.js" charset="UTF-8"></script>
+
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script>
+      w3.includeHTML();
+    </script>
+  </body>
+</html>
