@@ -82,14 +82,14 @@ async function click_btnConnectWallet() {
 
 async function _setLoader(id) {
   const elem = document.getElementById(id);
-  const overlays = elem.getElementsByClassName("loader");
+  const overlays = elem.getElementsByClassName("loading-overlay");
   if (overlays.length == 0) {
     const overlay = document.createElement("div");
     overlay.classList.add("loading-overlay");
     elem.appendChild(overlay);
   }
 
-  const loaders = elem.getElementsByClassName("loading-overlay");
+  const loaders = elem.getElementsByClassName("loader");
   if (loaders.length == 0) {
     const loader = document.createElement("div");
     loader.classList.add("loader");
