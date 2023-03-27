@@ -58,7 +58,29 @@ async function connectWallet(ethereum, isPvC = true) {
   gameData["provider"] = provider;
   gameData["account"] = account;
   gameData["contract"] = contract;
+  showWalletDisconect();
+
   return gameData;
+}
+
+async function showWalletDisconect() {
+  try {
+    document.getElementById("walletDisconect").style.display = "block";
+    document.getElementById(
+      "walletAddress"
+    ).textContent = `Ваш кошелёк ${account}`;
+  } catch {}
+}
+
+async function disconnectWallet() {
+  try {
+    await provider.send("eth_requestAccounts", [{ eth_accounts: {} }]);
+    localStorage.clear();
+  } catch {}
+
+  document.getElementById("walletDisconect").style.display = "none";
+  document.getElementById("walletAddress").textContent = `Кошелёк не подключен`;
+  location.reload();
 }
 
 async function playbyBNB(_choice, _amount) {

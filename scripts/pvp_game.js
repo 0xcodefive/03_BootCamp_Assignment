@@ -34,6 +34,7 @@ async function click_btnConnectWallet() {
   }
   setData();
   _setLoader("CreateGame");
+  await _sleep(1000);
 
   gameData = await connectWallet(window.ethereum, false);
   btnConnectWalletWrapper.style.display = "none";
@@ -66,6 +67,10 @@ async function click_btnConnectWallet() {
   });
   messageCreateGame.textContent = "Сделайте ставку";
   _removeLoader("CreateGame");
+
+  document.getElementById(
+    "walletAddress"
+  ).textContent = `Ваш кошелек ${account}`;
 }
 
 async function _startTimers() {

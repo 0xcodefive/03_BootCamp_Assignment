@@ -49,6 +49,7 @@ async function click_btnConnectWallet() {
     return;
   }
   setData();
+  await _sleep(1000);
 
   const gameData = await connectWallet(window.ethereum);
   document.getElementById("btnConnectWallet-wrapper").style.display = "none";
