@@ -44,7 +44,7 @@ async function click_btnConnectWallet() {
 
   // Проверяем подключен ли Метамаск к сайту
   if (typeof window.ethereum === "undefined") {
-    console.log("Крипто кошелёк не обнаружен");
+    alert("Крипто кошелёк не обнаружен");
     btnConnectWallet.innerHTML = "Нажми меня, чтобы подключить кошель";
     return;
   }
