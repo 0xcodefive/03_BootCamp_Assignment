@@ -22,7 +22,9 @@
         class="block selected"
         onclick="click_btnConnectWallet()"
       >
-        <div id="btnConnectWallet">Нажми меня, чтобы подключить кошель</div>
+        <div id="btnConnectWallet">
+          Подключи любой кошелёк, поддерживающий EVM
+        </div>
       </div>
 
       <div id="handlers" style="display: none">
@@ -101,14 +103,14 @@
       <div w3-include-html="/footer.html"></div>
     </footer>
 
-    <script src="/scripts/pvp_game.js" charset="UTF-8" defer></script>
-    <script src="/scripts/contract_helpers.js" charset="UTF-8"></script>
-    <script src="/scripts/game_helpers.js" charset="UTF-8"></script>
-    <script src="/scripts/bcsScanApi.js" charset="UTF-8"></script>
-
     <script src="https://www.w3schools.com/lib/w3.js"></script>
     <script>
       w3.includeHTML();
     </script>
+
+    <script src="/scripts/pvp_game.js" charset="UTF-8" defer></script>
+    <script src="/scripts/contract_helpers.js" charset="UTF-8"></script>
+    <script src="/scripts/game_helpers.js" charset="UTF-8"></script>
+    <script src="/scripts/bcsScanApi.js" charset="UTF-8"></script>
   </body>
 </html>
