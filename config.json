@@ -536,10 +536,16 @@
           "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "token",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "gameIndex",
+          "type": "uint256"
         }
       ],
       "name": "GamePvPisCancelled",
@@ -555,10 +561,16 @@
           "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "token",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "gameIndex",
+          "type": "uint256"
         }
       ],
       "name": "GamePvPisClosed",
@@ -578,6 +590,12 @@
           "internalType": "address",
           "name": "token",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "gameIndex",
+          "type": "uint256"
         }
       ],
       "name": "GamePvPisOpen",
@@ -597,6 +615,12 @@
           "internalType": "address",
           "name": "player_2",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "gameIndex",
+          "type": "uint256"
         }
       ],
       "name": "GamePvPisPlayed",
