@@ -15,7 +15,7 @@ async function _playbyBNB(_choice) {
       document.getElementById("messageGameBNB").textContent =
         "Что-то пошло не поп плану. Попробуйте ещё раз";
     });
-  document.getElementById("BNB_amount").value = 0;
+  document.getElementById("BNB_amount").value = 1;
   _removeLoader("gameBNB");
 }
 
@@ -35,7 +35,7 @@ async function _playbyToken(_choice) {
       document.getElementById("messageGameByToken").textContent =
         "Что-то пошло не поп плану. Попробуйте ещё раз";
     });
-  document.getElementById("token_amount").value = 0;
+  document.getElementById("token_amount").value = 1;
   _removeLoader("gameByToken");
 }
 

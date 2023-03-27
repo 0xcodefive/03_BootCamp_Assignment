@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Player vs Contract</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <link href="/css/styles.css" rel="stylesheet" />
     <script
       type="application/javascript"
@@ -28,12 +29,12 @@
         <div id="gameBNB" class="block">
           <h1>Игра на BNB</h1>
           <div>Введите сумму в finney (0.001 BNB)</div>
-          <input type="number" id="BNB_amount" />
+          <input type="number" id="BNB_amount" min="1" />
           <div>Ваш ход:</div>
           <div>
-            <button onclick="_playbyBNB(0)">Камень</button>
-            <button onclick="_playbyBNB(1)">Ножницы</button>
-            <button onclick="_playbyBNB(2)">Бумага</button>
+            <button class="btn_r" onclick="_playbyBNB(0)"></button>
+            <button class="btn_s" onclick="_playbyBNB(1)"></button>
+            <button class="btn_p" onclick="_playbyBNB(2)"></button>
           </div>
           <label id="messageGameBNB">Сделайте ставку</label>
         </div>
@@ -43,12 +44,12 @@
           <div>Выберите токен</div>
           <select id="tokenDropdown"></select>
           <div>Введите сумму в finney (0.001)</div>
-          <input type="number" id="token_amount" />
+          <input type="number" id="token_amount" min="1" />
           <div>Ваш ход:</div>
           <div>
-            <button onclick="_playbyToken(0)">Камень</button>
-            <button onclick="_playbyToken(1)">Ножницы</button>
-            <button onclick="_playbyToken(2)">Бумага</button>
+            <button class="btn_r" onclick="_playbyToken(0)"></button>
+            <button class="btn_s" onclick="_playbyToken(1)"></button>
+            <button class="btn_p" onclick="_playbyToken(2)"></button>
           </div>
           <label id="messageGameByToken">Ищем токены ERC20 для игры</label>
         </div>
@@ -75,7 +76,7 @@
     <footer>
       <div w3-include-html="/footer.html"></div>
     </footer>
-    
+
     <script src="/scripts/pvc_game.js" charset="UTF-8" defer></script>
     <script src="/scripts/contract_helpers.js" charset="UTF-8"></script>
     <script src="/scripts/game_helpers.js" charset="UTF-8"></script>

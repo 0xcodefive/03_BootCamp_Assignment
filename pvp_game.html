@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Player vs Player</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <link href="/css/styles.css" rel="stylesheet" />
     <script
       type="application/javascript"
@@ -30,14 +31,14 @@
           <div>Выберите токен</div>
           <select id="tokensOfCreateGameDropdown"></select>
           <div>Введите сумму в finney (0.001)</div>
-          <input type="number" id="amountCreateGame" />
-          <div>Придумайте и укажите секретный ключ (только буквы, цифры)</div>
-          <input type="text" id="secretCreateGame" />
+          <input type="number" id="amountCreateGame" min="1" />
+          <div>Придумайте и укажите секретный ключ (цифры)</div>
+          <input type="number" id="secretCreateGame" />
           <div>Ваш ход:</div>
           <div>
-            <button onclick="_createPvP(0)">Камень</button>
-            <button onclick="_createPvP(1)">Ножницы</button>
-            <button onclick="_createPvP(2)">Бумага</button>
+            <button class="btn_r" onclick="_createPvP(0)"></button>
+            <button class="btn_s" onclick="_createPvP(1)"></button>
+            <button class="btn_p" onclick="_createPvP(2)"></button>
           </div>
           <label id="messageCreateGame">Ищем токены ERC20 для игры</label>
         </div>
@@ -46,7 +47,7 @@
           <h1>Закройте несыгранную игру</h1>
           <label id="messageUnplayedGame"></label>
           <div>
-            <button onclick="_cancelGame()">Закрыть</button>
+            <button class="btn_close_game" onclick="_cancelGame()"></button>
           </div>
         </div>
 
@@ -54,12 +55,12 @@
           <h1>Закройте свою игру и получите результат</h1>
           <label id="messageCloseGame"></label>
           <div>Введите секретный ключ к игре</div>
-          <input type="text" id="secretCloseGame" />
+          <input type="number" id="secretCloseGame" />
           <div>Укажите Ваш ход в игре</div>
           <div>
-            <button onclick="_closePvP(0)">Камень</button>
-            <button onclick="_closePvP(1)">Ножницы</button>
-            <button onclick="_closePvP(2)">Бумага</button>
+            <button class="btn_r" onclick="_closePvP(0)"></button>
+            <button class="btn_s" onclick="_closePvP(1)"></button>
+            <button class="btn_p" onclick="_closePvP(2)"></button>
           </div>
         </div>
 
@@ -71,9 +72,9 @@
           <input type="text" id="secretPlayGame" />
           <div>Укажите Ваш ход в игре</div>
           <div>
-            <button onclick="_playPvP(0)">Камень</button>
-            <button onclick="_playPvP(1)">Ножницы</button>
-            <button onclick="_playPvP(2)">Бумага</button>
+            <button class="btn_r" onclick="_playPvP(0)"></button>
+            <button class="btn_s" onclick="_playPvP(1)"></button>
+            <button class="btn_p" onclick="_playPvP(2)"></button>
           </div>
           <label id="messagePlayGame"></label>
         </div>

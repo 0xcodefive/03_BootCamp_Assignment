@@ -1,7 +1,8 @@
 /* Общие стили для body */
 html,
 body {
-  margin-bottom: 80px;
+  margin-top: 80px;
+  margin-bottom: 120px;
 }
 
 body {
@@ -13,6 +14,7 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
+  background-color: #fff;
 }
 
 .main-content {
@@ -39,7 +41,7 @@ div {
 button {
   margin: 10px;
   padding: 10px 20px;
-  background-color: #007aff;
+  background-color: #070707;
   color: #fff;
   border: none;
   border-radius: 20px;
@@ -48,13 +50,47 @@ button {
   text-transform: uppercase;
   letter-spacing: 2px;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05),
-    0 12px 24px rgba(0, 0, 0, 0.05);
+  transition: all 0.5s ease-in-out;
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 1),
+    0 0px 4px rgba(255, 255, 255, 0.5), 0 0px 30px rgba(255, 255, 255, 0.5);
+  width: 200px;
+  height: 200px;
+  background-repeat: round;
 }
 
 button:hover {
-  background-color: #0056b3;
+  width: 250px;
+  height: 250px;
+}
+
+.btn_r {
+  background-image: url(/images/rock.jpg);
+}
+
+.btn_s {
+  background-image: url(/images/scissors.jpg);
+}
+
+.btn_p {
+  background-image: url(/images/paper.jpg);
+}
+
+.btn_close_game {
+  background-image: url(/images/close.jpg);
+}
+
+#PvC {
+  width: 300px;
+  height: 300px;
+  background-image: url(/images/pvc.jpg);
+  background-repeat: round;
+}
+
+#PvP {
+  width: 300px;
+  height: 300px;
+  background-image: url(/images/pvp.jpg);
+  background-repeat: round;
 }
 
 /* Стили для input */
@@ -72,10 +108,10 @@ option {
   letter-spacing: 2px;
   width: 100%;
   box-sizing: border-box;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
   text-align: center;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05),
-    0 12px 24px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 1),
+    0 0px 4px rgba(255, 255, 255, 0.5), 0 0px 30px rgba(255, 255, 255, 0.5);
 }
 
 input:focus,
@@ -107,7 +143,7 @@ td {
 }
 
 th {
-  background-color: #007aff;
+  background-color: #59544f;
   color: #fff;
   font-weight: bold;
 }
@@ -166,9 +202,13 @@ h4 {
   }
 }
 
+.selected {
+  transition: all 0.5s ease-in-out;
+}
+
 .selected:hover {
   cursor: pointer;
-  background: linear-gradient(to top left, #007aff10, #ffffff);
+  transform: scale(1.1);
 }
 
 .block {
@@ -184,7 +224,8 @@ h4 {
   padding: 24px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05),
     0 12px 24px rgba(0, 0, 0, 0.05);
-  background: linear-gradient(to bottom right, #007aff10, #ffffff);
+  background-color: #070707;
+  color: #fff;
 }
 
 .loading-overlay {
@@ -198,8 +239,8 @@ h4 {
 }
 
 .loader {
-  border: 8px solid #f3f3f3; /* серый цвет рамки */
-  border-top: 8px solid #3498db; /* синий цвет верхней рамки, чтобы создать эффект вращения */
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #070707;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -227,7 +268,7 @@ footer {
   justify-content: center;
   font-size: 0.75rem;
   line-height: 1rem;
-  height: 80px;
+  height: 100px;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -235,10 +276,7 @@ footer {
   color: #fff;
   text-align: center;
   z-index: 1000;
-  /* opacity: 0.8; */
-  transition: font-size 0.5s ease-in-out, line-height 0.5s ease-in-out,
-    height 0.5s ease-in-out, background-color 0.5s ease-in-out,
-    opacity 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .footer-container {
@@ -247,9 +285,40 @@ footer {
 }
 
 footer:hover {
-  opacity: 1;
-  font-size: 1.2rem;
-  line-height: 1.2rem;
-  height: 150px;
+  height: 120px;
+  transform: scale(1.1);
   background-color: rgb(32, 129, 226);
+}
+
+header {
+  z-index: 1000;
+}
+
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px #07070766;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.back-btn:hover {
+  transform: scale(1.1);
+}
+
+.arrow-left {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-right: 15px solid #070707;
 }

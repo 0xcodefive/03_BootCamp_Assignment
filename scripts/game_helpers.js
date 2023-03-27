@@ -263,7 +263,25 @@ async function createGamePvP(_choice, _secret, _tokenAddress, _amount) {
     };
   }
 
-  if (_amount <= 0) {
+  const num_secret = parseInt(_secret);
+  if (isNaN(num_secret)) {
+    console.log("Your secret is not number");
+    return {
+      result: false,
+      message: "Your secret is not number",
+    };
+  }
+
+  const num_amount = parseInt(_amount);
+  if (isNaN(num_amount)) {
+    console.log("Your amount is not number");
+    return {
+      result: false,
+      message: "Your amount is not number",
+    };
+  }
+
+  if (num_amount <= 0) {
     console.log("Your bet must be greater 1 finney");
     return {
       result: false,
@@ -440,12 +458,13 @@ async function callbackGamePvPisClosed(tableBody) {
     .queryFilter("GamePvPisPlayed", blockNumber - 5000, blockNumber)
     .then((events) => {
       const filtered = events.filter(
-        (event) => event.player_1 === account || event.player_2 === account
+        (event) =>
+          event.args.player_1 === account || event.args.player_2 === account
       );
       console.log(`Найдено ${filtered.length} событий`);
-      filtered.slice(-10).forEach(async (gameIndex, event) => {
+      filtered.slice(-10).forEach(async (event) => {
         const gamesPvP = (
-          await _pureFunction(contract, "gamesPvP", [gameIndex])
+          await _pureFunction(contract, "gamesPvP", [event.args.gameIndex])
         ).txResponse;
         if (gamesPvP.winner === zeroAddress) {
           return;
@@ -469,6 +488,7 @@ async function callbackGamePvPisClosed(tableBody) {
             await _pureFunction(erc20Contract, "symbol")
           ).txResponse;
         }
+        newRow.appendChild(tokenCell);
 
         const amountCell = document.createElement("td");
         amountCell.textContent = `${await weiToFinney(
@@ -479,7 +499,7 @@ async function callbackGamePvPisClosed(tableBody) {
         const resultCell = document.createElement("td");
         const winner = gamesPvP.winner;
         resultCell.textContent =
-          winner === data.BSC_TESTNET_ADDRESS_PVP
+          winner === Data.BSC_TESTNET_ADDRESS_PVP
             ? "Draw"
             : winner === account
             ? "Win"
@@ -491,12 +511,10 @@ async function callbackGamePvPisClosed(tableBody) {
     });
 
   // Подписываемся на событие GamePvPisClosed для контракта
-  contract.on("GamePvPisClosed", async (gameIndex, event) => {
-    const gamesPvP = (await _pureFunction(contract, "gamesPvP", [gameIndex]))
+  contract.on("GamePvPisClosed", async (_winner, _token, _gameIndex, event) => {
+    const gamesPvP = (await _pureFunction(contract, "gamesPvP", [_gameIndex]))
       .txResponse;
     if (gamesPvP.player_1 === account || gamesPvP.player_2 === account) {
-      console.log(`Новый результат игры: ${result}`);
-
       const newRow = document.createElement("tr");
 
       const timestampCell = document.createElement("td");
@@ -516,6 +534,7 @@ async function callbackGamePvPisClosed(tableBody) {
           await _pureFunction(erc20Contract, "symbol")
         ).txResponse;
       }
+      newRow.appendChild(tokenCell);
 
       const amountCell = document.createElement("td");
       amountCell.textContent = `${await weiToFinney(gamesPvP.balance)} finney`;
@@ -524,7 +543,7 @@ async function callbackGamePvPisClosed(tableBody) {
       const resultCell = document.createElement("td");
       const winner = gamesPvP.winner;
       resultCell.textContent =
-        winner === data.BSC_TESTNET_ADDRESS_PVP
+        winner === Data.BSC_TESTNET_ADDRESS_PVP
           ? "Draw"
           : winner === account
           ? "Win"
@@ -538,8 +557,10 @@ async function callbackGamePvPisClosed(tableBody) {
 
       if (resultCell.textContent !== "Draw") {
         alert(
-          `YOU ${resultCell.textContent} ${amountCell.textContent} finney ${tokenCell.textContent}`
+          `YOU ${resultCell.textContent} ${amountCell.textContent} ${tokenCell.textContent}`
         );
+      } else {
+        alert(`Sorry, ${resultCell.textContent}`);
       }
     }
   });

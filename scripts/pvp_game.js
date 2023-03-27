@@ -152,9 +152,13 @@ async function _createPvP(_choice) {
   await createGamePvP(_choice, secret, dropdown, amount)
     .then((result) => {
       messageCreateGame.textContent = result.message;
-      alert(
-        "Игра создана, можно создать только одну игру, ожидайте результата"
-      );
+      if (result.result) {
+        alert(
+          "Игра создана, можно создать только одну игру, ожидайте результата"
+        );
+      } else {
+        alert("Данные введены с ошибкой. Проверьте и попробуйте ещё раз.");
+      }
       _getUnplayedGame();
     })
     .catch((error) => {
@@ -163,7 +167,7 @@ async function _createPvP(_choice) {
         "Что-то пошло не по плану. Попробуйте ещё раз";
     });
   _removeLoader("CreateGame");
-  amountCreateGame.value = 0;
+  amountCreateGame.value = 1;
 }
 
 async function _cancelGame() {
@@ -176,6 +180,7 @@ async function _cancelGame() {
       messageUnplayedGame.textContent = `Игру можно завершить только после ${await _getTimestamp(
         timeGameOver
       )}`;
+      alert(messageUnplayedGame.textContent);
       _removeLoader("CancelUnplayedGame");
     } else {
       const result = await cancelUnplayedGame();
@@ -203,13 +208,14 @@ async function _closePvP(_choice) {
     .catch(async (error) => {
       console.log(error);
 
-      const game = await getOpenGameByCreator();
+      const game = await getPlayedGame();
       const now = new Date().getTime();
       const timeGameOver = game.timeGameOver.toNumber() * 1000;
       if (timeGameOver > now) {
         messageCloseGame.textContent = `Игру можно завершить только после ${await _getTimestamp(
           timeGameOver
         )}`;
+        alert(messageCloseGame.textContent);
       } else {
         messageCloseGame.textContent =
           "Что-то пошло не по плану. Попробуйте ещё раз.";
