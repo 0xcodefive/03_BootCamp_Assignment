@@ -47,6 +47,10 @@
 
         <div id="CancelUnplayedGame" style="display: none" class="block">
           <h1>Закройте несыгранную игру</h1>
+          <h4>
+            Партия открыта, ожидаем второго игрока и его хода (Если второй игрок
+            не присоединится игра закроется спустя таймаут)
+          </h4>
           <label id="messageUnplayedGame"></label>
           <div>
             <button class="btn_close_game" onclick="_cancelGame()"></button>
@@ -55,6 +59,10 @@
 
         <div id="CloseGame" style="display: none" class="block">
           <h1>Закройте свою игру и получите результат</h1>
+          <h4>
+            Откройте свой ход игре Введите свой ход и введите тот же секретный
+            ключ
+          </h4>
           <label id="messageCloseGame"></label>
           <div>Введите секретный ключ к игре</div>
           <input type="number" id="secretCloseGame" />

@@ -217,9 +217,9 @@ async function _closePvP(_choice) {
       const now = new Date().getTime();
       const timeGameOver = game.timeGameOver.toNumber() * 1000;
       if (timeGameOver > now) {
-        messageCloseGame.textContent = `Игру можно завершить только после ${await _getTimestamp(
+        messageCloseGame.textContent = ` Тот, кто присоединяется к игре может закрыть игру только по истечению таймаута, после ${await _getTimestamp(
           timeGameOver
-        )}`;
+        )}. Если игра создана вами, значит вы неправильно указали свой ход или секретый ключ.`;
         alert(messageCloseGame.textContent);
       } else {
         messageCloseGame.textContent =
@@ -235,6 +235,9 @@ async function _playPvP(_choice) {
   await playFirstOpenGamePvP(_choice, dropdown)
     .then((result) => {
       console.log(result);
+      alert(
+        "Вы сделали ход в игре, ждем когда создатель игры её закроет. Вы сможете закрыть эту игру самостоятельно только спустя таймаут."
+      );
     })
     .catch((error) => {
       console.log(error);
