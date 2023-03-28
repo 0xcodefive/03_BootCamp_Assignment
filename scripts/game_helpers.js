@@ -240,7 +240,7 @@ async function callbackGamePvCisPlayed(tableBody) {
   contract.on(
     "GamePvCisPlayed",
     async (player, amount, playerChoice, contractChoice, result, event) => {
-      if (player === account) {
+      if (compareIgnoreCase(player, account)) {
         console.log(`Новый результат игры: ${result}`);
 
         const newRow = document.createElement("tr");
@@ -316,7 +316,7 @@ async function createGamePvP(_choice, _secret, _tokenAddress, _amount) {
     await _pureFunction(contract, "createHashForGame", [_choice, _secret])
   ).txResponse;
 
-  if (_tokenAddress !== zeroAddress) {
+  if (!compareIgnoreCase(_tokenAddress, zeroAddress)) {
     // Проверяем разрешение расходования для выбранного пользователем токена
     const erc20Contract = new ethers.Contract(
       _tokenAddress,
@@ -403,7 +403,7 @@ async function playFirstOpenGamePvP(_choice, _tokenAddress) {
   }
 
   const gamePvP = await getFirstOpenGameByToken(_tokenAddress);
-  if (_tokenAddress !== zeroAddress) {
+  if (!compareIgnoreCase(_tokenAddress, zeroAddress)) {
     // Проверяем разрешение расходования для выбранного пользователем токена
     const erc20Contract = new ethers.Contract(
       _tokenAddress,
@@ -481,14 +481,15 @@ async function callbackGamePvPisClosed(tableBody) {
     .then((events) => {
       const filtered = events.filter(
         (event) =>
-          event.args.player_1 === account || event.args.player_2 === account
+          compareIgnoreCase(event.args.player_1, account) ||
+          compareIgnoreCase(event.args.player_2, account)
       );
       console.log(`Найдено ${filtered.length} событий`);
       filtered.slice(-10).forEach(async (event) => {
         const gamesPvP = (
           await _pureFunction(contract, "gamesPvP", [event.args.gameIndex])
         ).txResponse;
-        if (gamesPvP.winner === zeroAddress) {
+        if (compareIgnoreCase(gamesPvP.winner, zeroAddress)) {
           return;
         }
         const newRow = document.createElement("tr");
@@ -520,12 +521,14 @@ async function callbackGamePvPisClosed(tableBody) {
 
         const resultCell = document.createElement("td");
         const winner = gamesPvP.winner;
-        resultCell.textContent =
-          winner === Data.BSC_TESTNET_ADDRESS_PVP
-            ? "Draw"
-            : winner === account
-            ? "Win"
-            : "Fail";
+        resultCell.textContent = compareIgnoreCase(
+          winner,
+          Data.BSC_TESTNET_ADDRESS_PVP
+        )
+          ? "Draw"
+          : compareIgnoreCase(winner, account)
+          ? "Win"
+          : "Fail";
         newRow.appendChild(resultCell);
 
         tableBody.appendChild(newRow);
@@ -536,7 +539,10 @@ async function callbackGamePvPisClosed(tableBody) {
   contract.on("GamePvPisClosed", async (_winner, _token, _gameIndex, event) => {
     const gamesPvP = (await _pureFunction(contract, "gamesPvP", [_gameIndex]))
       .txResponse;
-    if (gamesPvP.player_1 === account || gamesPvP.player_2 === account) {
+    if (
+      compareIgnoreCase(gamesPvP.player_1, account) ||
+      compareIgnoreCase(gamesPvP.player_2, account)
+    ) {
       const newRow = document.createElement("tr");
 
       const timestampCell = document.createElement("td");
@@ -544,7 +550,7 @@ async function callbackGamePvPisClosed(tableBody) {
       newRow.appendChild(timestampCell);
 
       const tokenCell = document.createElement("td");
-      if (gamesPvP.token === zeroAddress) {
+      if (compareIgnoreCase(gamesPvP.token, zeroAddress)) {
         tokenCell.textContent = "tBNB";
       } else {
         const erc20Contract = new ethers.Contract(
@@ -564,12 +570,14 @@ async function callbackGamePvPisClosed(tableBody) {
 
       const resultCell = document.createElement("td");
       const winner = gamesPvP.winner;
-      resultCell.textContent =
-        winner === Data.BSC_TESTNET_ADDRESS_PVP
-          ? "Draw"
-          : winner === account
-          ? "Win"
-          : "Fail";
+      resultCell.textContent = compareIgnoreCase(
+        winner,
+        Data.BSC_TESTNET_ADDRESS_PVP
+      )
+        ? "Draw"
+        : compareIgnoreCase(winner, account)
+        ? "Win"
+        : "Fail";
       newRow.appendChild(resultCell);
 
       tableBody.appendChild(newRow);
@@ -695,4 +703,8 @@ async function _getTimestamp(timestamp) {
 
 async function _sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function compareIgnoreCase(str1, str2) {
+  return str1.toLowerCase() === str2.toLowerCase();
 }
