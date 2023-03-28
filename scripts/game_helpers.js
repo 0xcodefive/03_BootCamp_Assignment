@@ -585,7 +585,7 @@ async function callbackGamePvPisClosed(tableBody) {
         tableBody.removeChild(tableBody.firstChild);
       }
 
-      if (resultCell.textContent !== "Draw") {
+      if (!compareIgnoreCase(resultCell.textContent, "Draw")) {
         alert(
           `YOU ${resultCell.textContent} ${amountCell.textContent} ${tokenCell.textContent}`
         );
