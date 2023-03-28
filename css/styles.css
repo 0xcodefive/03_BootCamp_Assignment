@@ -80,15 +80,15 @@ button:hover {
 }
 
 #PvC {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   background-image: url(/images/pvc.jpg);
   background-repeat: round;
 }
 
 #PvP {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   background-image: url(/images/pvp.jpg);
   background-repeat: round;
 }
